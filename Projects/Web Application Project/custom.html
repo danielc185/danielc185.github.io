@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <!-- latest jQuery library -->
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+    <title>Custom</title>
+
+    <style>
+        .selections {
+            color: white;
+            font-size: 1.5em;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .image-box {
+            color: white;
+            font-size: 1.5em;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .image-box img {
+            max-width: 100%;
+            max-height: 79vh;
+            min-height: 79vh;
+            height: auto;
+            object-fit: contain;
+        }
+
+        #request-URL {
+            overflow-wrap: break-word;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class = "navbar navbar-expand-lg navbar-dark bg-info">
+        <div class = "container">
+            <div class = "navbar-nav">
+                <a class = "nav-link" href = "home.html">Home</a>
+                <a class = "nav-link" href = "examples.html">Examples</a>
+                <a class = "nav-link active" href = "custom.html"><b>Custom</b></a>
+            </div>
+        </div>
+    </nav>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-12 col-md-4 col-lg-3">
+                <div class = "selections">
+                    <p class = "lead">Use this section to customize your cat image!</p>
+                    <form id = "catForm">
+                        Tag: <input type = "text" name = "tag" size = "13" class = "form-control"><br>
+                        Text: <input type = "text" name = "text" size = "13" class = "form-control"><br>
+                        Font Style: <select class = "form-control" name = "fontStyle" style = "margin-bottom: 10px;">
+                            <option value>---</option>
+                            <option value = "Andale%20Mono">Andale Mono</option>
+                            <option value = "Impact">Impact</option>
+                            <option value = "Arial">Arial</option>
+                            <option value = "Arial%20Black">Arial Black</option>
+                            <option value = "Comic%20Sans%20MS">Comic Sans MS</option>
+                            <option value = "Courier%20New">Courier New</option>
+                            <option value = "Georgia">Georgia</option>
+                            <option value = "Times%20New%20Roman">Times New Roman</option>
+                            <option value = "Verdana">Verdana</option>
+                            <option value = "Webdings">Webdings</option>
+                        </select>
+                        Font Size: <input type = "range" name = "fontSizeInput" id = "fontSizeInput" value = "30" class = "form-range" min = "10" max = "100"><span id = "fontSizeValue"></span><br>    
+                        Text Color: <select class = "form-control" name = "fontTextColor" style = "margin-bottom: 10px;">
+                            <option value>---</option>
+                            <option value = "red">Red</option>
+                            <option value = "orange">Orange</option>
+                            <option value = "yellow">Yellow</option>
+                            <option value = "green">Green</option>
+                            <option value = "blue">Blue</option>
+                            <option value = "purple">Purple</option>
+                            <option value = "pink">Pink</option>
+                            <option value = "white">White</option>
+                            <option value = "black">Black</option>
+                            <option value = "gray">Gray</option>
+                        </select>
+                        Text Background Color: <select class = "form-control" name = "textBackgroundColor" style = "margin-bottom: 10px;">
+                            <option value>---</option>
+                            <option value = "red">Red</option>
+                            <option value = "orange">Orange</option>
+                            <option value = "yellow">Yellow</option>
+                            <option value = "green">Green</option>
+                            <option value = "blue">Blue</option>
+                            <option value = "purple">Purple</option>
+                            <option value = "pink">Pink</option>
+                            <option value = "white">White</option>
+                            <option value = "black">Black</option>
+                            <option value = "gray">Gray</option>
+                        </select>
+                        Filter: <select class = "form-control" name = "filter" style = "margin-bottom: 10px;">
+                            <option value>---</option>
+                            <option value = "mono">Mono</option>
+                            <option value = "negate">Negate</option>
+                        </select>
+                        <fieldset>
+                            <legend>Show request URL:</legend>
+                            <div>
+                                <input type = "radio" id = "show" name = "showURL" style = "margin-bottom: 10px;"/>
+                                <label for = "show">Show</label>
+                            </div>
+                            <div>
+                                <input type = "radio" id = "hide" name = "showURL" style = "margin-bottom: 10px;" checked/>
+                                <label for "hide">Hide</label>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <button onclick = "createAPIrequest()" class = "btn btn-danger form-control form-label btn-lg" style = "margin-top: 20px;">Generate image</button>
+                </div>
+            </div>
+            <div class = "col-12 col-md-8 col-lg-9">
+                <div class = "image-box">
+                    <center>
+                        <h3 id = "request-URL"></h3>
+                        <img id = "image">
+                        <h3 id = "error-message"></h3>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //used to dynamically change displayed font size value when slider is moved
+        const fontSizeInput = document.getElementById("fontSizeInput");
+        const fontSizeValue = document.getElementById("fontSizeValue");
+        fontSizeValue.textContent = fontSizeInput.value;
+        fontSizeInput.addEventListener("input", function() {
+            fontSizeValue.textContent = fontSizeInput.value;
+        });
+
+        //generate URL to be used for API request
+        function createAPIrequest(){
+            var tag = document.forms["catForm"].elements["tag"].value;
+            var text = document.forms["catForm"].elements["text"].value;
+            var fontStyle = document.forms["catForm"].elements["fontStyle"].value;
+            var fontSize = document.forms["catForm"].elements["fontSizeInput"].value;
+            var fontTextColor = document.forms["catForm"].elements["fontTextColor"].value;
+            var textBackgroundColor = document.forms["catForm"].elements["textBackgroundColor"].value;
+            var filter = document.forms["catForm"].elements["filter"].value;
+
+            var apiURL = "https://cataas.com/cat";
+            if(tag.length > 0){
+                apiURL += "/" + tag;
+            }
+            if(text.length > 0){
+                apiURL += "/says/" + text;
+            }
+            if(text.length > 0 && fontStyle.length > 0){
+                apiURL += "?font=" + fontStyle;
+            }
+            if(text.length > 0 && fontSize.length > 0){
+                if(!apiURL.includes("?")){
+                    apiURL += "?";
+                }
+                else{
+                    apiURL += "&";
+                }
+                apiURL += "fontSize=" + fontSize;
+            }
+            if(text.length > 0 && fontTextColor.length > 0){
+                if(!apiURL.includes("?")){
+                    apiURL += "?";
+                }
+                else{
+                    apiURL += "&";
+                }
+                apiURL += "fontColor=" + fontTextColor;
+            }
+            if(text.length > 0 && textBackgroundColor.length > 0){
+                if(!apiURL.includes("?")){
+                    apiURL += "?";
+                }
+                else{
+                    apiURL += "&";
+                }
+                apiURL += "fontBackground=" + textBackgroundColor;
+            }
+            if(filter.length > 0){
+                if(!apiURL.includes("?")){
+                    apiURL += "?";
+                }
+                else{
+                    apiURL += "&";
+                }
+                apiURL += "filter=" + filter;
+            }
+            fetchURL(apiURL);
+            //show request URL if user chooses to have it displayed on page
+            if (document.getElementById("show").checked){
+                document.getElementById("request-URL").innerHTML = "Request URL: " + apiURL;
+                document.getElementById("request-URL").style.display = "block";
+            }
+            else{
+                document.getElementById("request-URL").style.display = "none";
+            }
+        }
+        //takes in generated URL based on selected options and parameters and makes API request
+        function fetchURL(url){
+            fetch(url, {
+                method: 'GET'
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                //checks to confirm that an image was properly generated
+                if(blob.type.startsWith('image/')) {
+                    document.getElementById("error-message").style.display = "none";
+                    const photo = URL.createObjectURL(blob);
+                    const imgElement = document.getElementById("image");
+                    //used to automatically scroll image into view once generated
+                    imgElement.onload = () => {
+                        document.querySelector(".image-box").scrollIntoView({behavior: "smooth"});
+                    };
+                    imgElement.src = photo;
+                    //reveals box containing image
+                    document.querySelector(".image-box").style.display = 'block';
+                    //reveals image in case it was previously made hidden via failure to fetch image
+                    document.getElementById("image").style.display = "block";
+                }
+                //display error message if an image was unable to be fetched
+                //hide image if one was already generated previously
+                else {
+                    document.getElementById("image").style.display = "none";
+                    document.querySelector(".image-box").style.display = 'block';
+                    document.getElementById("error-message").innerHTML = "Invalid request. Try using a different tag.";
+                    document.getElementById("error-message").style.display = "block";
+                    //automatically scroll error message into view
+                    document.querySelector(".image-box").scrollIntoView({behavior: "smooth"});
+                }
+            })
+            .catch(error => console.error('Error fetching image:', error));
+        }
+    </script>
+</body>
+</html>
